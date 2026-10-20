@@ -86,6 +86,18 @@ Watch-specific hardware a kernel must drive:
 
 [itsvic-dev](https://github.com/itsvic-dev) started a mainline Linux + U-Boot + NixOS port for another MT6739 device (AGM M7) in October 2026. The author labels it AI-generated and experimental. That would turn the watch into a tiny Linux computer without Android or phone functions.
 
+## Checked a real candidate kernel (2026-10-21)
+
+Looked at whether a published MT6739 **phone** kernel running a much newer Android could actually serve as a starting point, rather than reasoning about it in the abstract.
+
+**Candidate:** [Samsung Galaxy A01 Core firmware dump](https://github.com/Android-FW-Dumps/samsung_a01core_dump) — real retail firmware, **Android 10**, **Treble-enabled** (`ro.treble.enabled=true`, has its own `vendor` partition), same `mt6739` platform. Two public kernel sources exist for this exact phone (`VenomousSteam81/android_kernel_samsung_mt6739`, `LumiPlayground/android_kernel_samsung_mt6739`), Linux 4.14.174, GPL, buildable.
+
+**Checked the driver trees directly** (not a GitHub code-search, which misses large/forked repos) for our two must-have parts:
+- **Display (Sitronix ST7701S):** not present. The phone's `drivers/misc/mediatek/lcm` folder has ~50 panel drivers (Novatek, Himax, JD, etc.) — none for ST7701S, a controller mostly used on small square/low-res panels like ours, not phone screens.
+- **Touch (Hynitron):** not present. The phone's `drivers/input/touchscreen/mediatek` has Goodix, Focaltech, FT5x26, NT36xxx, and `hxchipset` — which turned out to be **Himax**, a different company from Hynitron despite the similar-looking name. No Hynitron driver anywhere in this tree.
+
+**So the conclusion holds, now with a concrete example instead of a general argument:** a real, buildable, Treble, Android-10 kernel for this exact chip exists and is easy to find — the blocker was never "no newer Android was ever built for MT6739." It's specifically that **this watch's own display and touch controllers were never used on any phone**, so no published kernel (phone or otherwise) drives them. Porting means writing those two drivers from scratch against the real chip datasheets, which neither of these kernels gets you any closer to.
+
 ## Recommended order
 
 2. Tier 1: BROM entry → **full backup** → unlock → root

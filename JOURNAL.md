@@ -136,3 +136,7 @@ SELinux is `Permissive` on this firmware (as shipped, not our change). `/system`
 - [ ] mitmproxy over Wi-Fi to see the real activation payload
 - [ ] jadx on `devicemsg`, `wiitestore`, `wiite.power`: what's AccountManager used for?
 - [ ] Find the BROM entry (button combo vs test point)
+
+**Checked a real MT6739 Android-10 Treble kernel (Samsung A01 Core) against our two missing drivers.** Confirmed via GitHub contents API (not code search, which is unreliable for this) that neither its display driver folder nor its touch driver folder has anything for our ST7701S or Hynitron. `hxchipset` looked promising by name but is Himax, unrelated. So "newer Android" isn't blocked by MT6739 lacking later kernels in general — it's blocked specifically because this watch's display/touch chips were never used in any phone that got dumped/published. Confirms docs/05's conclusion with an actual example instead of a general argument.
+
+Also: restored the screen timeout to its original 15s (had set it to 30 min temporarily for Magisk UI work, forgot to revert).
