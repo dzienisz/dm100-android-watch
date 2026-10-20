@@ -107,6 +107,14 @@ This is the safety net the unlock step has needed since the plan was first writt
 
 **This is the headline result of the day.** From here, root (Magisk) is the next real step — patch the `boot.bin` we already backed up, flash it back.
 
+**Magisk patching done — worked around a real watch-specific UI bug.** Installed Magisk v30.7 (still supports Android 6.0+, covers our 7.1.1). Its in-app "Select and Patch a File" picker got stuck: the file browser opened to an empty "Documents" root with no visible way to switch to another folder — this watch's tiny screen hides the picker's menu/drawer control entirely, a known class of bug on non-phone screen layouts (same issue reported for Android TV boxes). Edge-swipe gestures triggered "back" instead of opening it. A media-scan trick didn't help either — confirmed this is a UI/navigation bug, not a missing-file problem.
+
+**Workaround: bypass the GUI entirely.** Magisk's own APK bundles its patcher as a plain shell script (`assets/boot_patch.sh`) plus the native tool (`magiskboot`) and friends, architecture-matched (`armeabi-v7a`) for this watch. Extracted them from the APK, pushed them straight to the watch, and ran the patch directly over `adb shell` — exactly what the app's button would have done, minus the button. (First attempt put the files on `/sdcard`, which turned out to be execute-protected — standard Android restriction. Second attempt on `/data/local/tmp`, the usual spot for ad-hoc adb binaries, worked immediately.)
+
+**Patch succeeded:** real device fstab (`fstab.mt6739`) found and dm-verity removed from it, Magisk binaries injected into the ramdisk, repacked into a new, same-size boot image. (Three harmless "Failed to patch" lines were about the device-tree blob specifically, a secondary check — the actual fstab patch worked.) Pulled back as `backup/magisk/boot_magisk_patched.img`.
+
+**Next:** flash this patched image onto the watch's `boot` partition via mtkclient (original `boot.bin` is already safely backed up in case this needs undoing), then reboot and verify root.
+
 ### Next
 - [x] Display panel model: ST7701S
 - [x] Reboot after AOT compile finishes, record before/after RAM + load

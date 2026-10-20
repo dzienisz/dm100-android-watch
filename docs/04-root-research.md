@@ -107,6 +107,22 @@ Confirmed after reboot: `ro.boot.verifiedbootstate` orange (was green), `ro.boot
 
 **Next: root.** Patch the backed-up `boot.bin` with Magisk, flash it back with `mtk w boot <patched>.bin`.
 
+## Magisk patched, worked around a watch-screen UI bug (2026-10-20)
+
+Magisk v30.7's own in-app file picker is unusable on this watch's screen: it opens to an empty root with no reachable way to switch folders (the menu/drawer exists but isn't reachable by touch — a known class of bug on small/non-standard screens, same symptom reported for Android TV boxes with DocumentsUI).
+
+**Fix: skip the GUI, run Magisk's own patcher directly.** Its APK ships `assets/boot_patch.sh` plus matching `armeabi-v7a` native binaries (`magiskboot`, `magisk`, `magiskinit`, `init-ld`, `busybox`). Extracted these from the APK, pushed them to `/data/local/tmp/` on the watch (not `/sdcard/`, which blocks execution), made them executable, and ran:
+
+```bash
+cd /data/local/tmp/magisk_patch && sh boot_patch.sh boot.img
+```
+
+This is the same thing the in-app button does, just invoked directly.
+
+**Result:** real device fstab (`fstab.mt6739`) patched, dm-verity removed, Magisk injected into the ramdisk, repacked to `new-boot.img` successfully. Pulled back as `backup/magisk/boot_magisk_patched.img`.
+
+**Next:** flash it to the `boot` partition with mtkclient, reboot, verify root.
+
 ## Open questions
 
 - [ ] Which button (if any) enters BROM/preloader on the DM100?
