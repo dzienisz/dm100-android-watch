@@ -53,6 +53,16 @@ Two gotchas:
 
 Run it through [`scripts/mtk.sh`](../scripts/mtk.sh), e.g. `scripts/mtk.sh --help`. `tools/` is git-ignored.
 
+## Status: blocked on a missing reference file (2026-10-20)
+
+Two live attempts via mtkclient, documented in [JOURNAL.md](../JOURNAL.md):
+
+1. **Watch reaches the chip's lowest-level mode with no button combination** — just plug in a fully powered-off watch. That answers one of the open questions below.
+2. **The attempt fails one step later.** mtkclient needs a small file specific to this watch's memory configuration to proceed safely. Every same-chip-family file bundled with the tool (~860 of them) turned out to be a tiny identification tag (under 2KB), not a real usable file — so there was nothing valid to try, bundled or borrowed from the sibling watch's backup (which turned out not to actually include its own copy either, despite its file listing naming one).
+3. One attempt without a real file left the watch briefly unresponsive (~20s dark screen); it recovered fully on its own with a long power hold, no data loss.
+
+**Next:** search for a real reference file for this exact watch or a closer sibling before any further live attempt. Candidates worth checking: other GitHub dumps, 4PDA/forum archives, firmware download sites, or someone else's full flash backup of a `C10_DW` / Wiite-based watch.
+
 ## Open questions
 
 - [ ] Which button (if any) enters BROM/preloader on the DM100?

@@ -78,6 +78,10 @@ Full write-up: [docs/05-modding-options.md](docs/05-modding-options.md).
 
 **After the attempt, watch went dark and didn't respond to a normal power press.** After holding power ~15-20s it turned back on and booted completely normally, same firmware, no data loss, just needed ADB re-authorization on the fresh boot. Lesson: a failed low-level attempt can leave the watch looking "off" for longer than usual before it responds to power again — worth knowing before trying again, and good to have the full backup done before going further.
 
+**Checked every MT6739-family file bundled with mtkclient (~860 files, `k39tv1*` matches the MT6739 reference board name): all of them are under 2KB.** They're identification tags used to auto-match a device by its storage chip, not real usable boot-stage files. None could have helped even as a guess. Corrected course before trying any of them on the watch.
+
+**Current wall:** reaching the watch's lowest-level mode works (twice now, no buttons needed), but completing the next step needs a real reference file specific to this watch (or something very close to it) for memory setup, and nothing found so far — not bundled, not in the Thor 5 sibling backup — is that. Pausing hardware attempts here; searching for a real candidate before trying live again.
+
 ### Next
 - [x] Display panel model: ST7701S
 - [x] Reboot after AOT compile finishes, record before/after RAM + load
