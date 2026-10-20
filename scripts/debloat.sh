@@ -13,6 +13,8 @@ PACKAGES=(
   com.maxelus.colorslivewallpaper
   com.android.browser                    # AOSP browser (Chrome is installed)
   com.android.music                      # AOSP music player (Spotify is installed)
+  com.wiite.devicemsg                    # uploads IMEI/serial/SIM number to watch.wiiteer.com over HTTP
+  cn.heils.faceunlock                    # face unlock SDK, talks to face.heils.cn
 )
 
 for p in "${PACKAGES[@]}"; do

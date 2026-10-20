@@ -78,7 +78,7 @@ Linux 4.4.22 (2016). Years of public kernel CVEs apply regardless of the `2024-0
 ## Recommendations
 
 1. **Use a secondary Google account** on the watch, not your main one. If your main account was already signed in, remove it on the watch, then revoke the device at <https://myaccount.google.com/device-activity>.
-2. Disable what you don't use. At minimum `com.wiite.devicemsg` once activated, `com.wiite.wiitestore`, and `cn.heils.faceunlock` if not using face unlock.
+2. Disable what you don't use. At minimum `com.wiite.devicemsg` once activated, `com.wiite.wiitestore`, and `cn.heils.faceunlock` if not using face unlock. All three are in [`scripts/debloat.sh`](../scripts/debloat.sh).
 3. Optional: a no-root VPN firewall (e.g. NetGuard, supports Android 5+) to block vendor uids from the internet.
 
 ## Open questions / next steps

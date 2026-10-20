@@ -15,6 +15,8 @@ Everything below uses `pm disable-user`, not uninstall. APKs stay on `/system` a
 | `com.wiite.wiitestore` | Vendor app store, runs in background as `system` |
 | `com.livephoto.live_wallpaper.realfire`, `com.maxelus.colorslivewallpaper` | Unused live wallpapers |
 | `com.android.browser`, `com.android.music` | AOSP duplicates of installed apps |
+| `com.wiite.devicemsg` | Uploads IMEI/serial/SIM number over HTTP (see [03](03-privacy-audit.md)) |
+| `cn.heils.faceunlock` | Face unlock SDK phoning `face.heils.cn`. Skip this one if you use face unlock |
 
 **Trade-off:** disabling Adups means no vendor OTA updates. The last one is from Oct 2024 and an OTA would also undo these changes.
 
