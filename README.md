@@ -1,10 +1,14 @@
 # What's really inside a no-name Android watch
 
-**My cheap 4G Android smartwatch was painfully slow. While trying to fix it, I found it sending my IMEI, serial number and SIM phone number to a server in China, over plain HTTP.**
+**My cheap 4G Android smartwatch was painfully slow. While trying to fix it, I found that its system software contains code that reads my IMEI, serial number and SIM phone number and posts them to the maker's server over plain, unencrypted HTTP.**
+
+*Evidence level: code analysis plus one observed connection. I did not capture the actual traffic, so this is strong evidence of what the software is built to do, not a recording of it. Details and caveats in [docs/03](docs/03-privacy-audit.md).*
 
 This repo documents taking apart (in software) the **DM100**, a white-label MT6739 Android watch sold under several brands. As far as I could find (October 2026), nobody had published anything about modding it.
 
 > **Just want the fix?** → [Make it faster](docs/02-performance-debloat.md) · [Stop the data upload](docs/03-privacy-audit.md#recommendations) · [Scripts](scripts/)
+>
+> **Want to do this yourself, start to finish?** → [docs/06-how-to-repeat-this.md](docs/06-how-to-repeat-this.md)
 >
 > **Lab notebook** with dated raw findings → [JOURNAL.md](JOURNAL.md)
 
@@ -46,7 +50,7 @@ Without root, I disabled 12 packages, halved animation times and AOT-compiled th
 
 ## 4. What does it say about me?
 
-I'd signed my Google account into the watch, so I wanted to know where its traffic goes. Most of it goes to Google. One connection didn't: a root-level socket to **`47.83.14.42:81`**, an Alibaba Cloud address.
+I'd signed my Google account into the watch, so I wanted to know where its traffic goes. Most of it goes to Google. One connection didn't: a short-lived socket to **`47.83.14.42:81`**, an Alibaba Cloud address (I don't know where that server is physically).
 
 That address is `watch.wiiteer.com`, the ODM's server. Inside the system app `com.wiite.devicemsg` there's an `UploadingService` pointing at:
 
@@ -55,13 +59,13 @@ http://watch.wiiteer.com/api/v1/watch/activation
 getDeviceId · imei · ro.serialno · getSimNumber · getSimOperator
 ```
 
-That is my **IMEI, serial number, SIM phone number and carrier**, sent unencrypted at boot.
+In other words, the app is built to read my **IMEI, serial number, SIM phone number and carrier** and send them to an `http://` (no TLS) endpoint, apparently around boot. I did not capture the request itself, so the exact payload is unverified.
 
 It gets worse structurally:
 
 - **19 vendor apps run as uid 1000** (`system`), the same identity as Android itself. They can technically read accounts, SMS and contacts without asking.
 - The firmware is signed with Android's **public test-keys**.
-- Other apps phone home to Amap/Alibaba, Baidu and a face-unlock SDK at `heils.cn`.
+- Other apps contain hard-coded endpoints for Amap (Alibaba maps), Baidu location and a face-unlock SDK at `heils.cn`. These were found in the code, not observed in traffic.
 
 I found **no evidence** of vendor code stealing Google credentials, but nothing on this firmware would stop it. My advice: **use a secondary Google account on this watch.**
 
@@ -117,6 +121,7 @@ That's enough to map which watches share this firmware, and which ones these fin
 | Privacy audit | ✅ findings + vendor domains blocked (hosts) · traffic capture optional |
 | Root / bootloader unlock | ✅ **done**: unlocked + Magisk root via mtkclient ([04](docs/04-root-research.md)) |
 | Newer Android (Treble port + GSI) | 🗺️ mapped out, needs root + kernel first: [05](docs/05-modding-options.md) |
+| Step-by-step repro guide | ✅ [06](docs/06-how-to-repeat-this.md) |
 
 ## Disclaimer & license
 

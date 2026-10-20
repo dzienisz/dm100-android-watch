@@ -2,7 +2,7 @@
 
 **Question:** if I sign into my Google account on this watch, does it leak data to the vendor?
 
-**Short answer:** the vendor collects device and SIM identifiers over plain HTTP. I found **no evidence** of vendor code reading Google credentials, but the firmware is built so that it *could*, and I can't rule it out from static strings alone. Use a secondary Google account on this watch.
+**Short answer:** the vendor's software is built to collect device and SIM identifiers and upload them over plain HTTP (from code analysis; the traffic itself was not captured). I found **no evidence** of vendor code reading Google credentials, but the firmware is built so that it *could*, and I can't rule it out from static strings alone. Use a secondary Google account on this watch.
 
 ## Method
 
@@ -32,7 +32,7 @@ getDeviceId  imei  ro.serialno  getSimNumber  getSimOperator  getSimType
 
 The connection was seen in `TIME_WAIT` a few minutes after boot. Polling `/proc/net/tcp*` every 2 s for the next 5 minutes showed no further connections to `47.83.14.42`, so the upload looks boot- or activation-triggered rather than continuous.
 
-So on activation it sends at least **IMEI, serial number, SIM phone number and operator** to the ODM, **unencrypted**. That's common "sales activation" telemetry for white-label devices, but the cleartext transport means anyone on the path sees it too.
+So the code is built to send at least **IMEI, serial number, SIM phone number and operator** to that server, **unencrypted** (inferred from the code and one observed connection; the real payload was never captured, so the exact fields are unverified). That's common "sales activation" telemetry for white-label devices, but the cleartext transport means anyone on the path sees it too.
 
 ## Finding 2: other hard-coded endpoints
 

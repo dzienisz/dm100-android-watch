@@ -16,7 +16,7 @@ Nothing is uninstalled. These 12 packages are **disabled** for user 0 and can be
 | 4 | `com.baidu.map.location` | Baidu location SDK | Sends location data to Baidu | Nothing visible. GPS and Google location still work |
 | 5 | `com.google.android.googlequicksearchbox` | Google app | Its `:interactor` process held ~177 MB resident | "Hey Google", voice search, Google feed |
 | 6 | `com.wiite.wiitestore` | Vendor app store | Runs in background as `system`, talks to `wiiteer.com` | Vendor app store (Play Store still works) |
-| 7 | `com.wiite.devicemsg` | Vendor activation uploader | Uploads IMEI/serial/SIM number over plain HTTP (see [03](03-privacy-audit.md)) | Nothing visible |
+| 7 | `com.wiite.devicemsg` | Vendor activation uploader | Contains code to upload IMEI/serial/SIM number over plain HTTP (code analysis, see [03](03-privacy-audit.md)) | Nothing visible |
 | 8 | `cn.heils.faceunlock` | Face unlock SDK | Talks to `face.heils.cn` | Face unlock |
 | 9 | `com.livephoto.live_wallpaper.realfire` | Fire live wallpaper | Unused | That wallpaper |
 | 10 | `com.maxelus.colorslivewallpaper` | Colors live wallpaper | Unused | That wallpaper |
