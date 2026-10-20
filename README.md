@@ -24,10 +24,10 @@ The name on the box isn't the maker. The firmware tells a different story:
 ro.product.manufacturer = alps                       ← MediaTek reference design
 ro.build.fingerprint    = alps/full_C10_DW_480X640_TFT/...:user/test-keys
 ro.mediatek.version     = ...aeon6739...             ← board design house
-system apps             = com.wiite.*                ← Shenzhen software stack
+system apps             = com.wiite.*                ← "Wiite" software stack
 ```
 
-So the DM100 is a Shenzhen ODM design (project `C10_DW`) on a MediaTek reference board, running a "Wiite" software stack, resold under whatever brand buys a batch. The same watch appears as Silvergear, Domino and others. Sibling designs on the same chip include the Zeblaze Thor 5, LEMFO LEM10 and Rugum DM20.
+So the DM100 is an unbranded ODM design (project `C10_DW`) on a MediaTek reference board, running a "Wiite" software stack, resold under whatever brand buys a batch. The same watch appears as Silvergear, Domino and others. Who "Wiite"/`wiiteer.com` actually is remains unconfirmed: no registered company by that name turned up in a web search, only a low-rated companion app (WiiWatch) by an individual developer, and the server sits on Alibaba Cloud. Sibling designs on the same chip include the Zeblaze Thor 5, LEMFO LEM10 and Rugum DM20.
 
 Under the hood: an **MT6739** (entry-level phone chip, 4x A53 @ 1.27 GHz, 32-bit userspace), 3 GB RAM, 32 GB storage (both real, which isn't a given on these), **Android 7.1.1**, and a **Linux 4.4.22 kernel from 2016**. The settings screen claims a March 2024 security patch.
 

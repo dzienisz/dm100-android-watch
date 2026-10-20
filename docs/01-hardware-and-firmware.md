@@ -38,7 +38,7 @@ gsm.version.baseband=MOLY.LR12A.R2.MP.V5.23.P10
 
 Notes:
 
-- **`alps`** is MediaTek's reference-design manufacturer string. The real ODM is a Shenzhen house using the **Wiite** software stack (`com.wiite.*`, `wiiteer.com`). The `aeon6739` tag suggests an Aeon board design.
+- **`alps`** is MediaTek's reference-design manufacturer string. The real ODM is not identified. The firmware uses a **Wiite** software stack (`com.wiite.*`, server `wiiteer.com`); no public company by that name was found (see README). The `aeon6739` tag suggests an Aeon board design.
 - **`C10_DW_480X640_TFT`** is the ODM's internal project name. The same base is probably shipped under many brand names.
 - **`test-keys`** means the system image is signed with the publicly available AOSP test keys, not a private vendor key (see [03](03-privacy-audit.md)).
 
