@@ -98,6 +98,15 @@ Hit one macOS-specific snag first: the raw USB write failed with `Access denied 
 
 This is the safety net the unlock step has needed since the plan was first written. Root is no longer blocked on "no real file" — it's blocked on nothing structural now, just on deciding whether to actually flip the unlock switch.
 
+**BOOTLOADER UNLOCKED.** Ran `mtk da seccfg unlock` with the real preloader from earlier (user ran it directly in their own terminal, typed their own sudo password — never through chat). Log ended with `Successfully wrote seccfg`. Confirmed on reboot:
+
+- `ro.boot.verifiedbootstate`: `green` → **`orange`**
+- `ro.boot.flash.locked`: `1` → **`0`**
+
+**Surprise: userdata was NOT wiped.** All 12 previously-disabled apps are still disabled, `/sdcard` still has the original files. Unlike the usual phone fastboot-unlock flow, this seccfg-only unlock just flips the lock bit without forcing a format. Same recovery pattern as every attempt today: watch goes black after the mtkclient session ends, comes back fine after a ~15-20s power hold, re-authorize ADB once.
+
+**This is the headline result of the day.** From here, root (Magisk) is the next real step — patch the `boot.bin` we already backed up, flash it back.
+
 ### Next
 - [x] Display panel model: ST7701S
 - [x] Reboot after AOT compile finishes, record before/after RAM + load

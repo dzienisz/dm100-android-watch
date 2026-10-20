@@ -97,6 +97,16 @@ Skipped deliberately: `system`, `userdata`, `cache` (large, holds only user data
 
 **This was the last missing piece for a safe unlock attempt.** Next decision: whether to actually run the unlock (`seccfg unlock`), which wipes userdata and is the point of no return for "keep using this as a normal watch without reflashing."
 
+## Bootloader unlocked (2026-10-20)
+
+`mtk da seccfg unlock --preloader backup/brom-dumps/preloader_dm100.bin` succeeded: `Successfully wrote seccfg`.
+
+Confirmed after reboot: `ro.boot.verifiedbootstate` orange (was green), `ro.boot.flash.locked` 0 (was 1).
+
+**Userdata survived** — this unlock path (seccfg flag only, not a fastboot `oem unlock`) didn't force a wipe. Apps, settings and files are unchanged.
+
+**Next: root.** Patch the backed-up `boot.bin` with Magisk, flash it back with `mtk w boot <patched>.bin`.
+
 ## Open questions
 
 - [ ] Which button (if any) enters BROM/preloader on the DM100?
