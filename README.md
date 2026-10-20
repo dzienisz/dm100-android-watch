@@ -64,7 +64,7 @@ I found **no evidence** of vendor code stealing Google credentials, but nothing 
 
 → Method, evidence and recommendations: [docs/03-privacy-audit.md](docs/03-privacy-audit.md)
 
-## 5. Breaking in *(in progress)*
+## 5. Breaking in *(done)*
 
 Next goal: root. The obstacles:
 
@@ -112,7 +112,7 @@ That's enough to map which watches share this firmware, and which ones these fin
 | Hardware & firmware ID | ✅ |
 | Debloat without root | ✅ RAM used at boot −43% (1.42 → 0.82 GB) |
 | Privacy audit | ✅ first pass · traffic capture & decompile next |
-| Root / bootloader unlock | 🔬 researching |
+| Root / bootloader unlock | ✅ **done**: unlocked + Magisk root via mtkclient ([04](docs/04-root-research.md)) |
 | Newer Android (Treble port + GSI) | 🗺️ mapped out, needs root + kernel first: [05](docs/05-modding-options.md) |
 
 ## Disclaimer & license

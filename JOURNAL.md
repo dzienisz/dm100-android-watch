@@ -115,6 +115,17 @@ This is the safety net the unlock step has needed since the plan was first writt
 
 **Next:** flash this patched image onto the watch's `boot` partition via mtkclient (original `boot.bin` is already safely backed up in case this needs undoing), then reboot and verify root.
 
+**ROOT ACHIEVED.** Flashed the Magisk-patched `boot` image with `mtk w boot` (same preloader dump, user ran the script in their own terminal; write finished 100%, 6.97 MB/s). First boot: Magisk app asked for one extra setup reboot ("Requires additional setup"), after that the app showed `Installed 30.7 (30700)` and `/sbin/su -> ./magisk` existed.
+
+`adb shell su -c id` kept returning `Permission denied`. Logcat said `Magisk: su: request rejected (2000)`: uid 2000 is the ADB shell. Settings already said "Superuser access: Apps and ADB" and "Automatic response: Prompt", so that wasn't it. The cause was in Magisk's **Superuser tab**: a `[SharedUID] Shell` entry with its switch OFF (a stored deny policy; no popup ever appeared because Magisk was auto-rejecting). Switched it ON:
+
+```
+$ adb shell su -c id
+uid=0(root) gid=0(root) groups=0(root) context=u:r:magisk:s0
+```
+
+SELinux is `Permissive` on this firmware (as shipped, not our change). `/system` still mounted read-only (expected; Magisk doesn't touch it).
+
 ### Next
 - [x] Display panel model: ST7701S
 - [x] Reboot after AOT compile finishes, record before/after RAM + load

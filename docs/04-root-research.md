@@ -123,6 +123,14 @@ This is the same thing the in-app button does, just invoked directly.
 
 **Next:** flash it to the `boot` partition with mtkclient, reboot, verify root.
 
+## Root achieved (2026-10-20)
+
+`mtk w boot backup/magisk/boot_magisk_patched.img --preloader backup/brom-dumps/preloader_dm100.bin` wrote the patched image. After one Magisk-requested setup reboot, `su` works.
+
+**Gotcha for ADB root:** `su` from `adb shell` was rejected (`su: request rejected (2000)` in logcat) with no popup, even with "Apps and ADB" set. Fix: Magisk app, Superuser tab, switch ON the `[SharedUID] Shell` entry. Result: `uid=0(root) ... context=u:r:magisk:s0`.
+
+**To undo root:** flash the original `boot` back: `mtk w boot backup/brom-dumps/boot.bin --preloader backup/brom-dumps/preloader_dm100.bin`.
+
 ## Open questions
 
 - [ ] Which button (if any) enters BROM/preloader on the DM100?
