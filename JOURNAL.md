@@ -68,7 +68,7 @@ Full write-up: [docs/05-modding-options.md](docs/05-modding-options.md).
 
 **mtkclient installed** (2.1.4) in `tools/venv`. `pip install mtkclient` fails on Python 3.15; Python 3.13 + git checkout works. Needed a stub for `mfusepy` (macFUSE not installed, only used for mounting). `mtk --help` runs. Not yet connected to the watch.
 
-**First BROM/preloader attempt (`scripts/mtk.sh printgpt`, watch powered off, plugged in with no buttons).** The watch enumerated as **`0e8d:20ff`, product name "Android"**, which is MediaTek's preloader USB mode, so entry into the pre-boot stage works without any button. No serial node (`/dev/cu.usbmodem*`) appeared on macOS. mtkclient logged `Handshake failed, retrying...` 40+ times and never connected. Setup used: watch to USB-C adapter/hub (VIA Labs) to Mac. Untested: direct cable without the hub, other button combos.
+**First BROM/preloader attempt (`scripts/mtk.sh printgpt`, watch off, plugged in, no buttons).** The watch enumerated as `0e8d:20ff`, product name "Android". mtkclient logged `Handshake failed, retrying...` 40+ times and never connected. **Correction:** I first read `20ff` as preloader mode. A pyusb probe shows it is a **single HID-class interface** (class 03, interrupt endpoints `ep81`/`ep01`), not the CDC/bulk interface a preloader VCOM (`0e8d:2000`) or BROM (`0e8d:0003`) would have. So the watch was *not* in a mode mtkclient can talk to; the hub is not proven to be the cause. No `/dev/cu.usbmodem*` node appeared either. Open: what is `20ff` (some charging/boot-stage gadget?) and which button combination reaches `2000`/`0003`.
 
 ### Next
 - [x] Display panel model: ST7701S
