@@ -58,6 +58,19 @@ Linux version 4.4.22+ (keil@build11) (gcc version 4.8 (GCC)) #1 SMP PREEMPT Fri 
 
 RAM and storage are real. Many cheap watches spoof these numbers, and this one doesn't.
 
+## Components (from boot `dmesg`)
+
+| Part | Chip |
+|---|---|
+| Display | Sitronix **ST7701S**, 480x640, MIPI DSI 1-lane, burst video mode |
+| Touch | **Hynitron** (CST-series), vendor driver "Hynitron V0.1" |
+| Heart rate | **HRS3300** |
+| Accelerometer | QST **QMA6100** |
+| Camera | GalaxyCore **GC02M2** (2 MP) |
+| PMIC | MediaTek **MT6357** |
+| Wi-Fi / BT / GPS / FM | On-SoC `CONSYS_MT6739` |
+| Keys | `mtk-kpd` (2 buttons) |
+
 ## Partition table (`/dev/block/platform/*/by-name/`)
 
 ```

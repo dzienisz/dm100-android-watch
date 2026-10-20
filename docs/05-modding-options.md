@@ -53,11 +53,13 @@ Watch-specific hardware a kernel must drive:
 
 | Part | Identified as | Status |
 |---|---|---|
-| Touch | **Hynitron** (`[HYN]` in dmesg, via `mtk-tpd`) | Driver not in the C7S/C8 tree. Hynitron publishes drivers separately |
-| Display | 480x640 DSI, video mode | **Panel model unknown.** Capture boot dmesg on next reboot |
+| Touch | **Hynitron** (driver reports "Hynitron V0.1", via `mtk-tpd`) | Driver not in the C7S/C8 tree. Hynitron publishes drivers separately |
+| Display | **Sitronix ST7701S** (`lk_st7701S_V2_480X640_dsi_vdo`), DSI 1-lane, burst video mode | Common controller. Mainline Linux has `panel-sitronix-st7701` |
 | PMIC | MT6357 | In MediaTek BSP |
 | Wi-Fi/BT/GPS | `CONSYS_MT6739` (on-SoC) | In MediaTek BSP |
-| Sensors | MTK sensor hub incl. heart rate | Vendor-specific, unknown |
+| Heart rate | **HRS3300** (I²C, 3.3 V) | Same chip as the PineTime. Open-source drivers exist (InfiniTime) |
+| Accelerometer | **QST QMA6100** (driver `QMAX981`). A Bosch BMA4xy probe also runs and fails | Out-of-tree vendor driver |
+| Camera | **GalaxyCore GC02M2** (2 MP, MIPI raw). Kernel also probes GC5035, OV5648, GC2385 | In MediaTek BSP imgsensor list |
 | Keys | `mtk-kpd` (2 buttons), `ACCDET` | Standard |
 
 ## Tier 3: newer Android
@@ -74,7 +76,7 @@ Watch-specific hardware a kernel must drive:
 **Why it's hard on this watch:**
 1. **No `vendor` partition.** Treble/GSI needs one, so the eMMC must be repartitioned. There is plenty of space in `userdata` (25 GB).
 2. **Kernel ↔ vendor match.** Newer vendor blobs (from a Treble MT6739 phone) expect their own kernel. That kernel lacks this watch's display, touch and sensor drivers. The drivers must be ported into it.
-3. **Unknown display panel.** Without the right init sequence the screen stays black.
+3. **Display panel is known (ST7701S)**, but its exact init sequence lives in the closed `lk`/kernel. It has to be extracted from the stock `lk`/`boot` images after a backup.
 4. **32-bit only.** Needs arm32 binder GSIs, and support for those thins out after Android 11.
 5. **Likely casualties:** modem/VoLTE (carrier configs are ODM-specific), the heart-rate sensor and the camera.
 
@@ -86,7 +88,6 @@ Watch-specific hardware a kernel must drive:
 
 ## Recommended order
 
-1. Capture the boot dmesg on the next reboot to identify the **display panel**
 2. Tier 1: BROM entry → **full backup** → unlock → root
 3. Tier 1: mitmproxy HTTPS capture (completes the privacy story)
 4. Decide on tier 2/3 once the kernel situation is clear

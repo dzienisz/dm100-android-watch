@@ -37,7 +37,7 @@ Under the hood: an **MT6739** (entry-level phone chip, 4x A53 @ 1.27 GHz, 32-bit
 
 Part of the slowness is just the chip. The rest is self-inflicted: a MediaTek debug logger running permanently, an Adups updater, a Baidu location service, a vendor app store and the Google app holding ~177 MB of RAM.
 
-Without root, I disabled 12 packages, halved animation times and AOT-compiled every app. Everything is reversible with one script.
+Without root, I disabled 12 packages, halved animation times and AOT-compiled the apps I use. RAM used after boot dropped from **1.42 GB to 0.82 GB (−43%)**. Everything is reversible with one script.
 
 → [docs/02-performance-debloat.md](docs/02-performance-debloat.md) · [`scripts/`](scripts/)
 
@@ -110,7 +110,7 @@ That's enough to map which watches share this firmware, and which ones these fin
 | Area | Status |
 |---|---|
 | Hardware & firmware ID | ✅ |
-| Debloat without root | ✅ (before/after numbers pending) |
+| Debloat without root | ✅ RAM used at boot −43% (1.42 → 0.82 GB) |
 | Privacy audit | ✅ first pass · traffic capture & decompile next |
 | Root / bootloader unlock | 🔬 researching |
 | Newer Android (Treble port + GSI) | 🗺️ mapped out, needs root + kernel first: [05](docs/05-modding-options.md) |

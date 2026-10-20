@@ -55,9 +55,20 @@ Raw, dated findings in the order they happened. Polished write-ups live in [`doc
 
 Full write-up: [docs/05-modding-options.md](docs/05-modding-options.md).
 
+**Full compile finished: 34 min 32 s.** 69 packages "could not be compiled", nearly all `/system` apps, so they're probably preopted. The `-a` run mostly compiled GMS, Chrome and user apps.
+
+**Rebooted, captured boot dmesg (5,371 lines). Full hardware ID:**
+- Display: `lk_st7701S_V2_480X640_dsi_vdo`, a **Sitronix ST7701S**, DSI 1-lane burst video. Mainline has a driver for this controller.
+- Touch: Hynitron, driver "Hynitron V0.1".
+- Heart rate: **HRS3300**, the PineTime's sensor.
+- Accelerometer: QST QMA6100 (BMA4xy probe fails first, chip id mismatch).
+- Camera: GC02M2 matched. The kernel also tries GC5035, OV5648 and GC2385, so the same kernel serves several hardware variants.
+
+**Before/after at 4 min uptime:** used RAM 1,422 → **816 MB (−43%)**, load 18.2 → 15.6.
+
 ### Next
-- [ ] `adb shell dmesg | grep -i lcm` right after reboot: display panel model
-- [ ] Reboot after AOT compile finishes, record before/after RAM + load
+- [x] Display panel model: ST7701S
+- [x] Reboot after AOT compile finishes, record before/after RAM + load
 - [ ] mitmproxy over Wi-Fi to see the real activation payload
 - [ ] jadx on `devicemsg`, `wiitestore`, `wiite.power`: what's AccountManager used for?
 - [ ] Find the BROM entry (button combo vs test point)

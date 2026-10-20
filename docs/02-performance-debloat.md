@@ -46,7 +46,16 @@ Trade-offs: storage (plenty free here), the upfront time, and an app update disc
 
 ## Before / after
 
-| | Before (fresh boot) | After |
-|---|---|---|
-| Used RAM | ~1.42 GB | _TBD after reboot_ |
-| Load avg 4 min after boot | ~18 | _TBD_ |
+Both measured ~4 minutes after a cold boot, single sample each, nothing opened by hand.
+
+| | Before | After debloat + compile | Change |
+|---|---|---|---|
+| Used RAM | 1,422 MB | **816 MB** | **−606 MB (−43%)** |
+| Free RAM | 1,553 MB | 2,159 MB | +606 MB |
+| Load avg (1 min) at 4 min uptime | 18.2 | 15.6 | −15% |
+
+RAM is the clear win: the disabled apps (above all the Google app's `:interactor` and the logger) no longer start at boot. Load right after boot stays high because boot itself dominates it. Day-to-day smoothness is the real test, and that's subjective.
+
+### What the full compile actually did
+
+`compile -m speed -f -a` ran for **34 min 32 s** and reported **69 packages that could not be compiled**, almost all `/system` apps (SystemUI, Settings, Phone, Contacts, …). These are most likely preopted at build time, so `-a` mostly burned time on Play Services, Chrome and the user apps. That's another reason the script now targets only user apps.
