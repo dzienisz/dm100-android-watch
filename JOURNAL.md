@@ -70,6 +70,14 @@ Full write-up: [docs/05-modding-options.md](docs/05-modding-options.md).
 
 **First BROM/preloader attempt (`scripts/mtk.sh printgpt`, watch off, plugged in, no buttons).** The watch enumerated as `0e8d:20ff`, product name "Android". mtkclient logged `Handshake failed, retrying...` 40+ times and never connected. **Correction:** I first read `20ff` as preloader mode. A pyusb probe shows it is a **single HID-class interface** (class 03, interrupt endpoints `ep81`/`ep01`), not the CDC/bulk interface a preloader VCOM (`0e8d:2000`) or BROM (`0e8d:0003`) would have. So the watch was *not* in a mode mtkclient can talk to; the hub is not proven to be the cause. No `/dev/cu.usbmodem*` node appeared either. Open: what is `20ff` (some charging/boot-stage gadget?) and which button combination reaches `2000`/`0003`.
 
+**Second attempt reached further: the watch's low-level chip mode responded this time** (unlike the first attempt, which only showed a generic USB mode). The tool got past the first handshake but stopped one step later because it needs a small reference file specific to this exact watch model for memory setup, and none of the ~838 bundled with the tool match this device.
+
+**Checked the sibling watch's (Thor 5) GitHub dump for that file:** its file listing *mentions* one, but the actual file was never uploaded to the repo, only a text listing of what the original dump contained. Dead end there.
+
+**Better plan found: pull that reference file directly from this watch's own chip** next time, instead of borrowing one from another device. Only needs a read, nothing written.
+
+**After the attempt, watch went dark and didn't respond to a normal power press.** After holding power ~15-20s it turned back on and booted completely normally, same firmware, no data loss, just needed ADB re-authorization on the fresh boot. Lesson: a failed low-level attempt can leave the watch looking "off" for longer than usual before it responds to power again — worth knowing before trying again, and good to have the full backup done before going further.
+
 ### Next
 - [x] Display panel model: ST7701S
 - [x] Reboot after AOT compile finishes, record before/after RAM + load
