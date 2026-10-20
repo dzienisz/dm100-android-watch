@@ -74,6 +74,10 @@ Next goal: root. The obstacles:
 
 → [docs/04-root-research.md](docs/04-root-research.md)
 
+### Can it run a newer Android?
+
+In theory, yes. MediaTek supported the MT6739 up to Android 13 Go on phones. On this watch it needs a custom kernel with the watch's own display and touch drivers, a repartitioned eMMC, and a ported vendor image. That's months of work. The full ladder from "install apps" to "mainline Linux" is in [docs/05-modding-options.md](docs/05-modding-options.md).
+
 ## 6. Do you own one?
 
 If you have a DM100, Thor 5, LEM10, DM20 or another `alps` MT6739 watch, please open an issue with:
@@ -109,7 +113,7 @@ That's enough to map which watches share this firmware, and which ones these fin
 | Debloat without root | ✅ (before/after numbers pending) |
 | Privacy audit | ✅ first pass · traffic capture & decompile next |
 | Root / bootloader unlock | 🔬 researching |
-| Custom ROM / GSI | ❌ not feasible on stock layout |
+| Newer Android (Treble port + GSI) | 🗺️ mapped out, needs root + kernel first: [05](docs/05-modding-options.md) |
 
 ## Disclaimer & license
 

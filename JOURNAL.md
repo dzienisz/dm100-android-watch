@@ -44,7 +44,19 @@ Raw, dated findings in the order they happened. Polished write-ups live in [`doc
 
 **`compile -m speed -f -a` is a mistake on this chip.** 30+ minutes in, still going, load ~20. CPU at full 1.27 GHz, `mtktscpu` 65 °C, so no throttling, just slow. Spent ages on Play Services (`com.google.android.gms`) and system apps like `WearAppDialStore`. Rewrote `tweaks.sh` to compile only `pm list packages -3` plus the launcher.
 
+**What else could this watch become?** Searched GitHub for `mt6739`:
+- `Dvalin21/wiite_c10_kernel` has the exact project name (`C10`) but is an **empty repo**, so somebody else tried in 2024.
+- `cateajansmedya/android_kernel_mediatek_mt6739`: Wiite C7S/C8 kernel, Android 7.1, same vendor. No Hynitron touch driver.
+- `mlm-games/thor_5_mt6739_dump`: Zeblaze Thor 5 full dump. **Identical** modem (`MOLY.LR12A.R2.MP.V5.23.P10`) and BSP (`alps-mp-n1.mp18`). Confirmed sibling.
+- MT6739 phones shipped up to Android 13 Go, so newer vendor blobs exist. LineageOS 21 device config with an `mt6739/` dir exists.
+- Mainline Linux + NixOS port for an MT6739 device appeared this month (itsvic-dev).
+
+**Touch controller is Hynitron** (`[HYN]` lines in dmesg). Display panel name not in the log any more (boot messages rotated out). Grab it on the next reboot.
+
+Full write-up: [docs/05-modding-options.md](docs/05-modding-options.md).
+
 ### Next
+- [ ] `adb shell dmesg | grep -i lcm` right after reboot: display panel model
 - [ ] Reboot after AOT compile finishes, record before/after RAM + load
 - [ ] mitmproxy over Wi-Fi to see the real activation payload
 - [ ] jadx on `devicemsg`, `wiitestore`, `wiite.power`: what's AccountManager used for?
