@@ -77,6 +77,16 @@ Looked for an actual full-size, device-matching file to get past the wall above,
 
 **Conclusion for now:** no real candidate file exists anywhere found so far. Rooting this watch is parked as an open problem rather than something to keep attempting blind. The debloat + privacy work already done stands on its own regardless of root.
 
+## Update: got a real reference file (2026-10-20)
+
+`mtkclient dumppreloader` reads the watch's own in-memory copy directly, via a small exploit payload, without needing the risky full-flash DA path at all — the right tool for exactly the "unprotected device, no known reference file" wall documented above.
+
+One macOS-specific snag: the raw USB write initially failed with a permissions error, because macOS's HID driver claims this watch's low-level USB interface by default. Running the one command with `sudo` fixed it.
+
+Result: a genuine 121,692-byte file with a real MediaTek header, saved to `backup/brom-dumps/` (git-ignored; device-specific).
+
+**Next:** use this file for the full partition backup before attempting any unlock.
+
 ## Open questions
 
 - [ ] Which button (if any) enters BROM/preloader on the DM100?

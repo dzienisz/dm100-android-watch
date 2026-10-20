@@ -88,6 +88,12 @@ Full write-up: [docs/05-modding-options.md](docs/05-modding-options.md).
 
 Parking live rooting attempts here. Full writeup: [docs/04-root-research.md](docs/04-root-research.md).
 
+**Breakthrough: pulled the real reference file straight from the watch's own chip memory.** Used mtkclient's `dumppreloader` command, which reads directly via a small built-in exploit payload rather than going through the risky full-flash DA/DRAM path that caused the earlier dark-screen scare — much safer, read-only the whole time.
+
+Hit one macOS-specific snag first: the raw USB write failed with `Access denied (insufficient permissions)`, because macOS treats this watch's low-level interface like a keyboard/mouse (HID class) and reserves it. Fixed by running the single command with admin rights (via the visible Terminal panel, password typed directly by the user — never through chat). Second try succeeded immediately.
+
+**Result:** `backup/brom-dumps/preloader_dm100.bin`, 121,692 bytes, genuine MediaTek header (`MMM` / `FILE_INFO`), consistent with real preloader files. Kept out of git (device-specific, same as other backups). This unblocks the wall from earlier today — we now have a real candidate file instead of nothing.
+
 ### Next
 - [x] Display panel model: ST7701S
 - [x] Reboot after AOT compile finishes, record before/after RAM + load
