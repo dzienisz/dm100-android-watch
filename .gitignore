@@ -9,3 +9,7 @@ dumps/
 
 .DS_Store
 tools/
+
+# mtkclient state written into the working dir (chip-unique IDs: ME_ID, SoC ID, eMMC CID)
+.state
+hwparam.json
