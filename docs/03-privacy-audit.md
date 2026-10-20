@@ -30,6 +30,8 @@ http://watch.wiiteer.com/api/v1/watch/activation
 getDeviceId  imei  ro.serialno  getSimNumber  getSimOperator  getSimType
 ```
 
+The connection was seen in `TIME_WAIT` a few minutes after boot. Polling `/proc/net/tcp*` every 2 s for the next 5 minutes showed no further connections to `47.83.14.42`, so the upload looks boot- or activation-triggered rather than continuous.
+
 So on activation it sends at least **IMEI, serial number, SIM phone number and operator** to the ODM, **unencrypted**. That's common "sales activation" telemetry for white-label devices, but the cleartext transport means anyone on the path sees it too.
 
 ## Finding 2: other hard-coded endpoints
