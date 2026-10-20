@@ -87,6 +87,16 @@ Result: a genuine 121,692-byte file with a real MediaTek header, saved to `backu
 
 **Next:** use this file for the full partition backup before attempting any unlock.
 
+## Backup complete (2026-10-20)
+
+Using the real preloader dump above, read 13 critical partitions in one `mtkclient r` call (comma-separated partition + filename lists — no need to reconnect per partition):
+
+`nvram, nvdata, proinfo, seccfg, boot, recovery, lk, lk2, para, nvcfg, frp, protect1, protect2` — 125 MB total, all confirmed dumped. Stored under `backup/brom-dumps/` (not committed; device-specific, includes calibration data).
+
+Skipped deliberately: `system`, `userdata`, `cache` (large, holds only user data/apps that the unlock wipes anyway and the owner doesn't need preserved), `md1img`/`md1dsp` (modem firmware — could add later if LTE needs recovering after a flash attempt).
+
+**This was the last missing piece for a safe unlock attempt.** Next decision: whether to actually run the unlock (`seccfg unlock`), which wipes userdata and is the point of no return for "keep using this as a normal watch without reflashing."
+
 ## Open questions
 
 - [ ] Which button (if any) enters BROM/preloader on the DM100?

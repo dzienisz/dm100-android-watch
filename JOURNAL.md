@@ -94,6 +94,10 @@ Hit one macOS-specific snag first: the raw USB write failed with `Access denied 
 
 **Result:** `backup/brom-dumps/preloader_dm100.bin`, 121,692 bytes, genuine MediaTek header (`MMM` / `FILE_INFO`), consistent with real preloader files. Kept out of git (device-specific, same as other backups). This unblocks the wall from earlier today — we now have a real candidate file instead of nothing.
 
+**Full targeted backup done.** Used the real preloader dump from earlier to read 13 critical partitions (`nvram, nvdata, proinfo, seccfg, boot, recovery, lk, lk2, para, nvcfg, frp, protect1, protect2`) in one connection — mtkclient's `r` command accepts a comma-separated list, so no need to repeat the plug-in dance per partition. Total 125 MB (boot/recovery turned out to be 24 MB each, bigger than expected — more safety margin, not less). All reported dumped successfully, saved under `backup/brom-dumps/` (git-ignored).
+
+This is the safety net the unlock step has needed since the plan was first written. Root is no longer blocked on "no real file" — it's blocked on nothing structural now, just on deciding whether to actually flip the unlock switch.
+
 ### Next
 - [x] Display panel model: ST7701S
 - [x] Reboot after AOT compile finishes, record before/after RAM + load
