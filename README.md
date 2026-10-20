@@ -111,7 +111,7 @@ That's enough to map which watches share this firmware, and which ones these fin
 |---|---|
 | Hardware & firmware ID | ✅ |
 | Debloat without root | ✅ RAM used at boot −43% (1.42 → 0.82 GB) |
-| Privacy audit | ✅ first pass · traffic capture & decompile next |
+| Privacy audit | ✅ findings + vendor domains blocked (hosts) · traffic capture optional |
 | Root / bootloader unlock | ✅ **done**: unlocked + Magisk root via mtkclient ([04](docs/04-root-research.md)) |
 | Newer Android (Treble port + GSI) | 🗺️ mapped out, needs root + kernel first: [05](docs/05-modding-options.md) |
 

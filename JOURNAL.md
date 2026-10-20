@@ -128,6 +128,8 @@ SELinux is `Permissive` on this firmware (as shipped, not our change). `/system`
 
 **Systemless debloat module.** With root, replaced "disabled" with "hidden from /system" via a Magisk module (`scripts/make-debloat-module.sh`, 12 `.replace` folders). Verified after reboot: 10 packages GONE, root and core apps intact. Leftovers: the Google app and fire wallpaper had `/data/app` updates; `pm uninstall` of the Google app update crashed `system_server` once (soft reboot, recovered). Fire wallpaper's *system* copy came back when its update was removed, so it was added to the module as well (needs one more reboot to apply).
 
+**Blocked the vendor domains** (`scripts/block-vendor-domains.sh`): a `hosts` file inside the Magisk module maps `wiiteer.com` (5 names), `heils.cn` (2), `adups.com` (1), `weitetech.cn`, and the two Baidu location hosts to `0.0.0.0`; applied live with a bind mount and persistently via the module. Tested with `ping`: vendor names resolve to localhost, Google normal. One reboot confirmed it persists and also applied the fire-wallpaper removal. Not blocked on purpose: Amap (fitness app needs it). Caveat: hosts files don't stop hard-coded IPs or private DNS, so this is a mitigation, not a guarantee.
+
 ### Next
 - [x] Display panel model: ST7701S
 - [x] Reboot after AOT compile finishes, record before/after RAM + load

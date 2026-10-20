@@ -83,6 +83,25 @@ Linux 4.4.22 (2016). Years of public kernel CVEs apply regardless of the `2024-0
 2. Disable what you don't use. At minimum `com.wiite.devicemsg` once activated, `com.wiite.wiitestore`, and `cn.heils.faceunlock` if not using face unlock. All three are in [`scripts/debloat.sh`](../scripts/debloat.sh).
 3. Optional: a no-root VPN firewall (e.g. NetGuard, supports Android 5+) to block vendor uids from the internet.
 
+## Mitigation applied with root (2026-10-20)
+
+[`scripts/block-vendor-domains.sh`](../scripts/block-vendor-domains.sh) puts a `hosts` file into the Magisk module `dm100_debloat` (systemless, `/system` untouched) that maps these names to `0.0.0.0`:
+
+| Domain | Why |
+|---|---|
+| `wiiteer.com`, `www.`, `watch.`, `watch2.`, `developer.` | activation/telemetry server of the watch's software stack |
+| `face.heils.cn`, `faceunlock.sdk.heils.cn` | face-unlock SDK |
+| `fota5tbk.adups.com` | Adups OTA updater |
+| `www.weitetech.cn` | referenced by the launcher |
+| `api.map.baidu.com`, `loc.map.baidu.com` | Baidu location SDK |
+
+Verified on the watch: the vendor names resolve to the watch itself (nothing leaves) while `www.google.com` resolves normally, and the block survives a reboot (11 active entries).
+
+**Limits, honestly:**
+- A hosts file blocks by *name*. Anything that connects to a hard-coded IP, uses its own DNS (the fitness app embeds AliDNS `223.5.5.5`) or DNS-over-HTTPS bypasses it. A real guarantee needs a firewall rule.
+- Amap (`*.amap.com`, used by the fitness app for maps/location) is deliberately **not** blocked, to avoid breaking that app. It still talks to Alibaba's map servers.
+- Hosts blocking does not stop the OS from using the `devicemsg`/`Adups` code if it were still installed. Those apps are removed anyway (see [02](02-performance-debloat.md)).
+
 ## Open questions / next steps
 
 - [ ] Capture actual traffic (mitmproxy on Wi-Fi) to see real payloads, not just strings
