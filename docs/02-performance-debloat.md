@@ -28,7 +28,15 @@ Nothing is uninstalled. These 12 packages are **disabled** for user 0 and can be
 ## Tweaks ([`scripts/tweaks.sh`](../scripts/tweaks.sh))
 
 - **Animation scales → 0.5x.** `0` feels faster still, but makes some transitions jarring.
-- **`cmd package compile -m speed -f -a`** AOT-compiles every app. Android 7 otherwise relies on JIT plus idle-time profile compilation, which on this CPU means a lot of runtime compiling. Costs storage (there is plenty) and takes a long time to run.
+- **AOT-compile the apps you use** (`cmd package compile -m speed -f <pkg>`): user-installed apps plus the `com.mediatek.watchapp` launcher.
+
+### Why compiling helps
+
+Apps ship as DEX bytecode, not ARM machine code. Android 7 runs them through an interpreter and JIT, and only compiles "hot" code to native (`speed-profile`) later, when the device is idle and charging. On a 1.27 GHz MT6739 the JIT work while you use an app shows up as stutter. Compiling ahead of time with `speed` moves all that work to one upfront run.
+
+Trade-offs: storage (plenty free here), the upfront time, and an app update discards its compiled code.
+
+> ⚠️ **Don't use `compile -m speed -f -a`.** My first run compiled all 119 packages and took 30+ minutes with load ~20. Most of that time went to system apps nobody opens and to Play Services, which updates itself through the Play Store and throws the result away. The script now compiles only the apps you actually use.
 
 ## Not done (deliberately)
 

@@ -42,6 +42,8 @@ Raw, dated findings in the order they happened. Polished write-ups live in [`doc
 
 **Repo created** (private).
 
+**`compile -m speed -f -a` is a mistake on this chip.** 30+ minutes in, still going, load ~20. CPU at full 1.27 GHz, `mtktscpu` 65 °C, so no throttling, just slow. Spent ages on Play Services (`com.google.android.gms`) and system apps like `WearAppDialStore`. Rewrote `tweaks.sh` to compile only `pm list packages -3` plus the launcher.
+
 ### Next
 - [ ] Reboot after AOT compile finishes, record before/after RAM + load
 - [ ] mitmproxy over Wi-Fi to see the real activation payload

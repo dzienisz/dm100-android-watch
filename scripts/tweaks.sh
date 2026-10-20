@@ -6,6 +6,12 @@ adb shell settings put global window_animation_scale 0.5
 adb shell settings put global transition_animation_scale 0.5
 adb shell settings put global animator_duration_scale 0.5
 
-# AOT-compile all apps instead of relying on JIT + idle-time profile compilation.
-# Costs storage (plenty free) and takes a while on this CPU; reverts on next OTA/app update.
-adb shell cmd package compile -m speed -f -a
+# AOT-compile only the apps you actually use: user-installed apps plus the watch launcher.
+# Not `-a`: compiling all ~119 packages with `speed` took 30+ min on the MT6739, mostly
+# on system apps nobody opens and on Play Services, which self-updates and loses it anyway.
+# Override the list with: APPS="com.whatsapp com.spotify.music" ./tweaks.sh
+APPS=${APPS:-"$(adb shell pm list packages -3 | tr -d '\r' | sed 's/^package://') com.mediatek.watchapp"}
+for p in $APPS; do
+  printf '%-45s ' "$p"
+  adb shell cmd package compile -m speed -f "$p" 2>&1 | tr -d '\r'
+done
