@@ -8,3 +8,4 @@ dumps/
 *.apk
 
 .DS_Store
+tools/

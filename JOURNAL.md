@@ -66,6 +66,8 @@ Full write-up: [docs/05-modding-options.md](docs/05-modding-options.md).
 
 **Before/after at 4 min uptime:** used RAM 1,422 → **816 MB (−43%)**, load 18.2 → 15.6.
 
+**mtkclient installed** (2.1.4) in `tools/venv`. `pip install mtkclient` fails on Python 3.15; Python 3.13 + git checkout works. Needed a stub for `mfusepy` (macFUSE not installed, only used for mounting). `mtk --help` runs. Not yet connected to the watch.
+
 ### Next
 - [x] Display panel model: ST7701S
 - [x] Reboot after AOT compile finishes, record before/after RAM + load

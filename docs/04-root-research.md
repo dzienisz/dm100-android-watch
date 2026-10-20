@@ -34,6 +34,25 @@
    ```
 4. **Root:** patch the dumped `boot.img` with Magisk on the device, then `mtk w boot boot_patched.img`.
 
+## Setting up mtkclient on macOS (done, 2026-10-20)
+
+Tested on macOS with Homebrew; mtkclient 2.1.4 (git `7cb40e7`).
+
+```bash
+brew install libusb
+mkdir -p tools && cd tools
+git clone --depth 1 https://github.com/bkerler/mtkclient.git
+/opt/homebrew/bin/python3.13 -m venv venv           # not 3.15: compiled deps have no builds yet
+./venv/bin/pip install -r mtkclient/requirements.txt
+```
+
+Two gotchas:
+
+1. **Python version.** `pip install mtkclient` finds nothing on a bleeding-edge Python (3.15). Use 3.13 and install from the git checkout.
+2. **`OSError: Unable to find libfuse`.** mtkclient imports `mfusepy` for its optional "mount flash as a drive" feature, which needs macFUSE (a kernel extension). We don't need it, so inside the venv replace `site-packages/mfusepy.py` with an empty stub (classes `Operations`, `LoggingMixIn`, `FUSE` that do nothing). Everything else works.
+
+Run it through [`scripts/mtk.sh`](../scripts/mtk.sh), e.g. `scripts/mtk.sh --help`. `tools/` is git-ignored.
+
 ## Open questions
 
 - [ ] Which button (if any) enters BROM/preloader on the DM100?
