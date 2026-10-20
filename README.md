@@ -12,6 +12,9 @@ This repo documents taking apart (in software) the **DM100**, a white-label MT67
 
 ## 1. The watch
 
+![The DM100 plugged into a Mac, showing its "About watch" screen with model number DM100](docs/img/dm100-about-watch.jpg)
+
+
 I have a "Silvergear" DM100: a 4G watch running full Android with Play Store, WhatsApp, Chrome and Spotify on the wrist. In practice everything took seconds to open.
 
 Plugging it into my Mac showed something unexpected. It enumerates as a **MediaTek** device with **ADB already enabled**, so no developer options and no unlocking were needed to get a shell.
