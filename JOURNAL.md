@@ -126,6 +126,8 @@ uid=0(root) gid=0(root) groups=0(root) context=u:r:magisk:s0
 
 SELinux is `Permissive` on this firmware (as shipped, not our change). `/system` still mounted read-only (expected; Magisk doesn't touch it).
 
+**Systemless debloat module.** With root, replaced "disabled" with "hidden from /system" via a Magisk module (`scripts/make-debloat-module.sh`, 12 `.replace` folders). Verified after reboot: 10 packages GONE, root and core apps intact. Leftovers: the Google app and fire wallpaper had `/data/app` updates; `pm uninstall` of the Google app update crashed `system_server` once (soft reboot, recovered). Fire wallpaper's *system* copy came back when its update was removed, so it was added to the module as well (needs one more reboot to apply).
+
 ### Next
 - [x] Display panel model: ST7701S
 - [x] Reboot after AOT compile finishes, record before/after RAM + load

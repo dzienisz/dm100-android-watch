@@ -11,3 +11,7 @@ done
 adb shell settings delete global window_animation_scale
 adb shell settings delete global transition_animation_scale
 adb shell settings delete global animator_duration_scale
+
+# If the root debloat module was installed (scripts/make-debloat-module.sh), remove it
+# (needs Magisk root). The hidden apps return after a reboot.
+adb shell 'su -c "rm -rf /data/adb/modules/dm100_debloat"' 2>/dev/null && echo "debloat module removed, reboot to restore apps"

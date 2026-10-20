@@ -25,6 +25,29 @@ Nothing is uninstalled. These 12 packages are **disabled** for user 0 and can be
 
 **Trade-off:** disabling Adups means no vendor OTA updates. The last one is from Oct 2024 and an OTA would also undo these changes.
 
+## With root: really removing them (systemless, 2026-10-20)
+
+After [root](04-root-research.md), the 12 disabled apps are removed from view with a Magisk module instead of just disabled: [`scripts/make-debloat-module.sh`](../scripts/make-debloat-module.sh) creates `/data/adb/modules/dm100_debloat` with a `.replace` marker for each app folder, so Magisk mounts an empty folder over it at boot. `/system` itself is never written, so this is undone by deleting the module (`scripts/revert.sh` does that) and rebooting.
+
+| App | Folder hidden |
+|---|---|
+| MTK logger | `/system/vendor/app/MTKLogger` |
+| Adups FOTA + helper | `/system/app/AdupsFota`, `/system/app/AdupsFotaReboot` |
+| Baidu location | `/system/vendor/priv-app/Baidu_Location` |
+| Google app | `/system/priv-app/Velvet` |
+| Vendor store | `/system/app/WearAppDialStore` |
+| Activation uploader | `/system/priv-app/WearUpDeviceInfo` |
+| Face unlock | `/system/priv-app/HeilsFaceUnlock` |
+| Colors wallpaper | `/system/app/SymphonyofColors` |
+| Fire wallpaper | `/system/app/RealFireLiveWallpaper` |
+| Browser, Music | `/system/vendor/app/WearBrowser`, `/system/vendor/app/WearMusic` |
+
+**Gotchas found:**
+- Two apps (Google app, fire wallpaper) had a user-installed *update* in `/data/app` on top of the system copy. Hiding the system copy leaves the update behind, and `pm uninstall` of an update reveals the system copy again. Hide the system folder first, then uninstall the update.
+- `pm uninstall` of the Google app update made `system_server` restart once (a soft reboot, about a minute). Nothing was lost.
+- Play Services, Play Store, launcher, phone, SystemUI, Chrome, WhatsApp and Spotify all survived; root still works.
+- RAM used 4 min after boot with the module applied: about 849 MB (vs 816 MB with apps only disabled and no Magisk; Magisk itself adds a little).
+
 ## Tweaks ([`scripts/tweaks.sh`](../scripts/tweaks.sh))
 
 - **Animation scales → 0.5x.** `0` feels faster still, but makes some transitions jarring.
