@@ -1,0 +1,10 @@
+# Device-specific dumps: may contain serial, IMEI, account and Wi-Fi data
+backup/
+dumps/
+*.img
+*.bin
+
+# Vendor binaries are not redistributed
+*.apk
+
+.DS_Store
