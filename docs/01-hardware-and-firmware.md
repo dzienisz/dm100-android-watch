@@ -68,7 +68,7 @@ RAM and storage are real. Many cheap watches spoof these numbers, and this one d
 | Accelerometer | QST **QMA6100** |
 | Camera | GalaxyCore **GC02M2** (2 MP) |
 | PMIC | MediaTek **MT6357** |
-| Wi-Fi / BT / GPS / FM | On-SoC `CONSYS_MT6739` |
+| Wi-Fi / BT / GPS | On-SoC `CONSYS_MT6739` |
 | Keys | `mtk-kpd` (2 buttons) |
 
 ## Partition table (`/dev/block/platform/*/by-name/`)
