@@ -82,6 +82,12 @@ Full write-up: [docs/05-modding-options.md](docs/05-modding-options.md).
 
 **Current wall:** reaching the watch's lowest-level mode works (twice now, no buttons needed), but completing the next step needs a real reference file specific to this watch (or something very close to it) for memory setup, and nothing found so far — not bundled, not in the Thor 5 sibling backup — is that. Pausing hardware attempts here; searching for a real candidate before trying live again.
 
+**Searched for a real reference file instead of guessing.** A 2021 firmware zip for this watch family is dead (404). A promising multi-chipset tool (`watchrom`, by **dvalin21** — same person who opened the empty `wiite_c10_kernel` repo) turned out to wrap the same mtkclient we have, no new file inside. Confirmed via forum threads that "no reference file → fails on memory setup" is a generic, commonly-unsolved MediaTek problem, not something specific to us. No shortcut exists.
+
+**Real lead:** dvalin21 is clearly researching this exact watch family (empty repo named for its internal project name, a 2024 forum question about it) and has since built serious device-flashing tooling. Worth a direct outreach. No file in hand yet, though.
+
+Parking live rooting attempts here. Full writeup: [docs/04-root-research.md](docs/04-root-research.md).
+
 ### Next
 - [x] Display panel model: ST7701S
 - [x] Reboot after AOT compile finishes, record before/after RAM + load

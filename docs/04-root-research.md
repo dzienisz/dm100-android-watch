@@ -63,6 +63,20 @@ Two live attempts via mtkclient, documented in [JOURNAL.md](../JOURNAL.md):
 
 **Next:** search for a real reference file for this exact watch or a closer sibling before any further live attempt. Candidates worth checking: other GitHub dumps, 4PDA/forum archives, firmware download sites, or someone else's full flash backup of a `C10_DW` / Wiite-based watch.
 
+## Search for a real reference file (2026-10-20)
+
+Looked for an actual full-size, device-matching file to get past the wall above, before trying anything else live on the watch.
+
+**Dead ends:**
+- A firmware zip for this exact watch family, linked on a watch-enthusiast forum in 2021 and reported working by a second person in 2022, is **gone** — the Google Drive link now 404s.
+- A link to a firmware file on a related brand's own site needs checking further; not confirmed working.
+- `watchrom` ([Dvalin21/watchrom](https://github.com/Dvalin21/watchrom)), a serious multi-chipset ROM toolkit supporting MT6739, turned out to wrap the same mtkclient we're already using underneath. It doesn't bundle or fetch a real reference file for this chip either — same wall.
+- This exact failure pattern ("no reference file given → fails one step later with a memory-setup error") is a **known, commonly unresolved problem** for unprotected MediaTek devices generally, per several unrelated forum threads. No universal fix exists; the only resolution anyone reports is getting the real matching file.
+
+**Real lead, not yet a solution:** the GitHub user **dvalin21** opened an empty repo named exactly for this watch's internal project name (`wiite_c10_kernel`, found earlier) in 2024, and separately asked in a watch-enthusiast forum thread about this same device family as recently as June 2024. They've since built substantial, actively-maintained ROM/device tooling. Worth reaching out to directly — they may have gotten further, or be interested in comparing notes.
+
+**Conclusion for now:** no real candidate file exists anywhere found so far. Rooting this watch is parked as an open problem rather than something to keep attempting blind. The debloat + privacy work already done stands on its own regardless of root.
+
 ## Open questions
 
 - [ ] Which button (if any) enters BROM/preloader on the DM100?
